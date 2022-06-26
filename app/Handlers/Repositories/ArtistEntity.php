@@ -83,4 +83,15 @@ class ArtistEntity implements ArtistEntityInterface {
         }
         return (new ArtistFormat)->setForApi($artistObj);
 	}
+	public function list($whereConditionals = []) {
+		$list = Artist::select("*");
+
+		if (isset($whereConditionals["like"])) {
+			foreach($whereConditionals["like"] as $key => $value) {
+				$list->where($key, "like", "%".strtoupper($value)."%");
+			}
+		}
+
+		return $list;
+	}
 }

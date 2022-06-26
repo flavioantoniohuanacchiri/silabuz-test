@@ -27,4 +27,7 @@ class ArtistController extends Controller
     public function store(ArtistRequest $request) {
         return response()->json($this->_artistEntity->create($request->all()));
     }
+    public function trackList(Request $request) {
+        
+    }
 }
