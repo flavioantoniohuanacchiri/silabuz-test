@@ -19,10 +19,13 @@ use Illuminate\Support\Facades\Route;
 });*/
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
 Route::post('/login', ['as' => 'login', 'uses' => 'App\Http\Controllers\AuthController@login']);
+Route::post('/logout', ['as' => 'logout', 'uses' => 'App\Http\Controllers\AuthController@logout']);
 //Route::get('/me', 'App\Http\Controllers\AuthController@me');
 
 Route::group([
 	'prefix'	=>	'artist'
 ], function() {
-	Route::get("/{id}", 'App\Http\Controllers\ArtistController@show');
+	Route::get("/{id}", 'App\Http\Controllers\ArtistController@show')->name("artist.show");
+	Route::get("/{id}/top", 'App\Http\Controllers\ArtistController@trackList')->name("artist.trackList");
+	Route::post("", 'App\Http\Controllers\ArtistController@store')->name("artist.store");
 });

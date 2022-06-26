@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Artist;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ArtistRequest;
+use App\Handlers\Repositories\ArtistEntity;
+
+class ArtistController extends Controller
+{
+    protected $_artistEntity;
+    public function __construct(
+         ArtistEntity $artistEntity
+    ) {
+        $this->middleware('auth:sanctum');
+        $this->_artistEntity = $artistEntity;
+    }
+    
+    public function show($id) {
+        return response()->json($this->_artistEntity->find($id));
+    }
+    public function store(ArtistRequest $request) {
+        return response()->json($this->_artistEntity->create($request->all()));
+    }
+}
