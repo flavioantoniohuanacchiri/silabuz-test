@@ -47,11 +47,31 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'expire_time' => date("Y-m-d H:i:s", strtotime("+60 minutes"))
         ]);
     }
 
-    public function me(Request $request)
-    {
-        return $request->user();
+    public function logout(Request $request) {
+        $headerAuthorizationArray = 
+            isset($request->header()["authorization"])? $request->header()["authorization"] : [];
+        $headerAuthorization = 
+            isset($headerAuthorizationArray[0])? $headerAuthorizationArray[0] : "";
+
+        $explodeWithOutBearer = explode("Bearer ", $headerAuthorization);
+        $tokenId = "";
+
+        if (isset($explodeWithOutBearer[1])) {
+            $explodeToken = explode("|", $explodeWithOutBearer[1]);
+            if (isset($explodeToken[0])) {
+                $tokenId = $explodeToken[0];
+            }
+        }
+        if ($tokenId == "") {
+            return response()->json(['message'  => 'Error when logout']);
+        }
+        
+        $request->user()->tokens()->where('id', $tokenId)->delete();
+
+        return response()->json(['message'  => 'Successful logout']);
     }
 }

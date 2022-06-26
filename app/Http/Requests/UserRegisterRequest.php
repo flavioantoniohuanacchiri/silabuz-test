@@ -32,8 +32,8 @@ class UserRegisterRequest extends FormRequest
             'password'     =>  'required|required_with:password_confirmation|same:confirm|string|min:8',
             'confirm'      =>  'required|string|min:8',
             'gender'       =>  'required|size:1',
-            'country_code' =>  'required|size:5'
-            'language_code'=>  'required|size:5'
+            'country_code' =>  'required|between:2,5',
+            'language_code'=>  'required|between:2,5'
         ];
     }
 
