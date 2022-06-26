@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('App\Handlers\ArtistEntityInterface', 'App\Handlers\Repositories\ArtistEntity');
         $this->app->bind('App\Handlers\AlbumEntityInterface', 'App\Handlers\Repositories\AlbumEntity');
+        $this->app->bind('App\Handlers\TrackEntityInterface', 'App\Handlers\Repositories\TrackEntity');
     }
 
     /**

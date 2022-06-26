@@ -29,3 +29,25 @@ Route::group([
 	Route::get("/{id}/top", 'App\Http\Controllers\ArtistController@trackList')->name("artist.trackList");
 	Route::post("", 'App\Http\Controllers\ArtistController@store')->name("artist.store");
 });
+
+Route::group([
+	'prefix'	=>	'album'
+], function() {
+	Route::get("/{id}", 'App\Http\Controllers\AlbumController@show')->name("album.show");
+	Route::get("/{id}/top", 'App\Http\Controllers\AlbumController@trackList')->name("album.trackList");
+	Route::post("", 'App\Http\Controllers\AlbumController@store')->name("album.store");
+});
+
+Route::group([
+	'prefix'	=>	'track'
+], function() {
+	Route::get("/{id}", 'App\Http\Controllers\TrackController@show')->name("track.show");
+});
+
+Route::group([
+	'prefix'	=>	'search'
+], function() {
+	Route::get("", 'App\Http\Controllers\SearchController@index')->name("search.index");
+});
+
+
