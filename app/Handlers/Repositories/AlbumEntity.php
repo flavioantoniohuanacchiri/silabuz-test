@@ -1,14 +1,14 @@
 <?php namespace App\Handlers\Repositories;
 
-use App\Handlers\EntityInterface;
-use App\Models\Artist;
-use App\Formats\ArtistFormat;
+use App\Handlers\AlbumEntityInterface;
+use App\Models\Album;
+use App\Formats\AlbumFormat;
 use Intervention\Image\Facades\Image as Image;
 use DB;
 
 class AlbumEntity implements AlbumEntityInterface {
 	public function create($entity = []) {
-		$image = $entity["image"];
+		/*$image = $entity["image"];
 		$name = $entity["name"];
 		$nbAlbums = isset($entity["nb_album"])? $entity["nb_album"] : 0;
 		$nbFans = isset($entity["nb_fan"])? $entity["nb_fan"] : 0;
@@ -64,11 +64,11 @@ class AlbumEntity implements AlbumEntityInterface {
 
 			DB::commit();
 
-			return ["error" => false, "data" => (new ArtistFormat)->setForApi($artistObj)];
+			return ["error" => false, "data" => (new AlbumFormat)->setForApi($artistObj)];
 		} catch (Exception $e) {
 			DB::rollback();
 			return ["error" => true, "message" => $e->getMessage(). "|".$e->getLine()];
-		}
+		}*/
 	}
 	public function update($entity = [], $entityId = null) {
 
@@ -77,10 +77,21 @@ class AlbumEntity implements AlbumEntityInterface {
 
 	}
 	public function find($entityId = null) {
-		$artistObj = Artist::find($entityId);
+		$artistObj = Album::find($entityId);
 		if (is_null($artistObj)) {
             return new \stdClass;
         }
-        return (new ArtistFormat)->setForApi($artistObj);
+        return (new AlbumFormat)->setForApi($artistObj);
+	}
+	public function list($whereConditionals = []) {
+		$list = Album::select("*");
+
+		if (isset($whereConditionals["like"])) {
+			foreach($whereConditionals["like"] as $key => $value) {
+				$list->where($key, "like", "%".strtoupper($value)."%");
+			}
+		}
+
+		return $list;
 	}
 }
